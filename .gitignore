@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# Django
+*.log
+*.pot
+*.mo
+*.sqlite3
+media/
+
+# Virtual environment
+venv/
+.env
+
+# ML model
+*.pkl
+
+# IDEs
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+thumbs.db
+
