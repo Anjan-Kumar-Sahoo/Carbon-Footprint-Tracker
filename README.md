@@ -21,8 +21,7 @@ Climate change is one of the most pressing issues of our time. I built this proj
 
 ## Demo Screenshots & Live Link
 
-> _Add screenshots here (dashboard, add record, leaderboard, API response, etc.)_
-> _Live link: [your-app-url.com](https://your-app-url.com)_
+---
 
 ## Installation Steps
 
@@ -53,5 +52,3 @@ Climate change is one of the most pressing issues of our time. I built this proj
    - Try the API endpoints (`/api/records/`, `/api/predict/`)
 
 ## Contact
-
-For questions, feedback, or collaboration, reach out via [LinkedIn](https://linkedin.com/in/yourprofile) or [email](mailto:your@email.com).
