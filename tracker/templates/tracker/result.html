@@ -9,10 +9,28 @@
                     <h3>Commute Record Result</h3>
                 </div>
                 <div class="card-body">
-                    <p><strong>Mode of Transport:</strong> {{ record.mode_of_transport }}</p>
+
+                    <p><strong>Mode of Transport:</strong> {{ record.get_mode_of_transport_display }}</p>
                     <p><strong>Distance:</strong> {{ record.distance }} km</p>
-                    <p><strong>Fuel Efficiency:</strong> {{ record.fuel_efficiency }} L/100km</p>
-                    <p><strong>Predicted Emission:</strong> {{ record.predicted_emission }} kg CO2</p>
+                    <p><strong>Mileage:</strong> {{ record.fuel_efficiency }} km/L</p>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                <strong>Calculated Emission:</strong><br>
+                                {{ calculated_emission|floatformat:2 }} kg CO₂
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-warning">
+                                <strong>ML Predicted Emission:</strong><br>
+                                {% if predicted_emission_ml is not None %}
+                                    {{ predicted_emission_ml|floatformat:2 }} kg CO₂
+                                {% else %}
+                                    <span class="text-muted">Not available</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
                     <h4>Emission Comparison</h4>
                     {% if chart_path %}

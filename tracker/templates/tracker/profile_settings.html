@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Profile Settings - Carbon Footprint Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h2><i class="bi bi-gear text-primary me-2"></i>Profile Settings</h2>
+                    <p class="text-muted">Customize your carbon footprint goals and preferences</p>
+                    <div class="row justify-content-center mb-2">
+                        <div class="col-md-6">
+                            <div class="alert alert-success mb-1">
+                                <strong>Lifetime Emissions Saved:</strong> {{ lifetime_saved|floatformat:2 }} kg CO₂
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-info mb-1">
+                                <strong>Total Lifetime Emissions:</strong> {{ lifetime_emission|floatformat:2 }} kg CO₂
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <span class="badge bg-primary">Current Monthly Target: {{ profile.monthly_co2_goal|floatformat:0 }} kg CO₂</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Form -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>Emission Goals & Preferences</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.monthly_co2_goal.id_for_label }}" class="form-label">
+                                            <i class="bi bi-target me-1"></i>{{ form.monthly_co2_goal.label }}
+                                        </label>
+                                        {{ form.monthly_co2_goal }}
+                                        {% if form.monthly_co2_goal.help_text %}
+                                        <div class="form-text">{{ form.monthly_co2_goal.help_text }}</div>
+                                        {% endif %}
+                                        {% for error in form.monthly_co2_goal.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.preferred_transport.id_for_label }}" class="form-label">
+                                            <i class="bi bi-heart me-1"></i>{{ form.preferred_transport.label }}
+                                        </label>
+                                        {{ form.preferred_transport }}
+                                        {% if form.preferred_transport.help_text %}
+                                        <div class="form-text">{{ form.preferred_transport.help_text }}</div>
+                                        {% endif %}
+                                        {% for error in form.preferred_transport.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary me-md-2">
+                                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                                            </a>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="bi bi-check-circle me-1"></i>Save Settings
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal Recommendations -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6><i class="bi bi-info-circle text-info me-1"></i>Monthly Goal Recommendations</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <small><strong>Conservative:</strong> 150-200 kg CO₂ (typical commuter)</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <small><strong>Moderate:</strong> 80-120 kg CO₂ (eco-conscious)</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <small><strong>Ambitious:</strong> 30-60 kg CO₂ (mostly public transport/cycling)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
