@@ -94,13 +94,14 @@ def export_data(request):
         p.drawString(250, y, "Total Emission (kg CO2)")
         y -= 20
         for s in summaries:
+            if y < 50:
+                p.showPage()
+                p.setFont("Helvetica", 12)
+                y = 750
             p.drawString(50, y, str(s.month))
             p.drawString(150, y, str(s.year))
             p.drawString(250, y, f"{s.total_emission:.2f}")
             y -= 20
-            if y < 50:
-                p.showPage()
-                y = 750
         p.save()
         pdf = buffer.getvalue()
         buffer.close()
