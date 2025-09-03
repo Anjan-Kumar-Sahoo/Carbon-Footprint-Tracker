@@ -1,9 +1,8 @@
 Django
-psycopg2-binary
-scikit-learn
-pandas
-matplotlib
-dj-database-url
-whitenoise
 gunicorn
-
+whitenoise
+dj-database-url
+psycopg2-binary
+pandas
+scikit-learn
+matplotlib
