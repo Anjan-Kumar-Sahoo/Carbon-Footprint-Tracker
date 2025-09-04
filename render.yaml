@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: carbon-footprint-tracker
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn carbon_footprint_tracker.wsgi:application
+
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: carbon-footprint-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+
+databases:
+  - name: carbon-footprint-db
+    plan: free
+    databaseName: carbonfootprint
+    user: carbonuser

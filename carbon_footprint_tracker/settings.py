@@ -1,31 +1,20 @@
-"""
-Django settings for carbon_footprint_tracker project.
-"""
-
 from pathlib import Path
-import os
 import dj_database_url
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ===============================
-# Security & Debug
-# ===============================
-
+# Secret key from env
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    "django-insecure-!#10sls+um^wr006k(3dg!c8kz96lulzgon=e6fs%w&!#47c_+"  # fallback for local dev
+    "django-insecure-!#10sls+um^wr006k(3dg!c8kz96lulzgon=e6fs%w&!#47c_+"  # fallback for local
 )
 
+# Debug flag
 DEBUG = os.environ.get("DEBUG", "True") == "True"
-
 ALLOWED_HOSTS = ["*"]
 
-
-# ===============================
-# Installed Apps
-# ===============================
-
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,9 +27,10 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,6 +41,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'carbon_footprint_tracker.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -68,17 +59,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'carbon_footprint_tracker.wsgi.application'
 
-
-# ===============================
-# Database
-# ===============================
-# Use Postgres on Render if DATABASE_URL is set, otherwise use SQLite
+# Database: SQLite locally, PostgreSQL on Render
 if os.environ.get("DATABASE_URL"):
     DATABASES = {
         "default": dj_database_url.config(
-            default=os.environ["DATABASE_URL"],
-            conn_max_age=600,
-            ssl_require=True,
+            conn_max_age=600, ssl_require=True
         )
     }
 else:
@@ -89,11 +74,7 @@ else:
         }
     }
 
-
-# ===============================
 # Password validation
-# ===============================
-
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -101,31 +82,21 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
-# ===============================
 # Internationalization
-# ===============================
-
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-# ===============================
-# Static & Media Files
-# ===============================
-
+# Static files
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# Media files (charts, uploads)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-
-# ===============================
-# Default PK
-# ===============================
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
